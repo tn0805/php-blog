@@ -1,5 +1,5 @@
 <?php  
-    include '../../config/connect.php';
+    include '../../../config/connect.php';
     if (isset($_POST['email']) && isset($_POST['username']) && isset($_POST['password'])) {
         $email = $_POST['email'];
         $username = $_POST['username'];
