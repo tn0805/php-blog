@@ -7,11 +7,15 @@
         $email = $_POST['email'];
         $old_password = md5($_POST['old_password']);
         $password = md5($_POST['password']);
-        $sql = "UPDATE users SET email='$email',password='$password' WHERE id = $id AND password = '$old_password' ";
-        if (mysqli_query($conn,$sql)) {
-            header('location: logout.php');
-        }else {
-            echo "Somethings went wrong";
+        if ($old_password == $userInfo['password']) {
+            $sql = "UPDATE users SET email='$email',password='$password' WHERE id = $id ";
+            if (mysqli_query($conn,$sql)) {
+                header('location: logout.php');
+            }else {
+                echo "Somethings went wrong";
+            }
+        }else{
+            echo "Wrong password!!!";
         }
     }
 ?>

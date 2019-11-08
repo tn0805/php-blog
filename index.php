@@ -8,6 +8,8 @@
  ?>
 <?php 
                     $categories = mysqli_query($conn,"SELECT * FROM categories");
+                    $posts = mysqli_query($conn,"SELECT * FROM posts");
+                    $tags = mysqli_query($conn,"SELECT * FROM tags");
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +33,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="index.php?m=posts">Post</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?m=tags">Tags</a>
             </li>
         </ul>
         <ul class="navbar-nav navbar-expand ml-auto">
