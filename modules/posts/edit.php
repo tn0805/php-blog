@@ -9,7 +9,7 @@ $id = !empty($_GET['id']) ? $_GET['id'] : 0;
         if (!empty($_POST['tag_id'])) {
             $tag_ids = $_POST['tag_id'];
             foreach ($tag_ids as $tag_id) {
-                $tags = mysqli_query($conn,"INSERT INTO posts_tags(post_id,tag_id) VALUES ('$id','$tag_id')");
+                    $tags = mysqli_query($conn,"INSERT INTO posts_tags(post_id,tag_id) VALUES ('$id','$tag_id')");
             }
         }
         if (mysqli_query($conn,$sql)) {
