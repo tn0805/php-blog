@@ -41,7 +41,6 @@ session_start();
                 <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
-            <a href="modules/users/register.php" class="btn btn-success">Register</a>
         </form>
     </div>
 </body>

@@ -5,11 +5,20 @@
         header('location: login.php');
     }
     $login = $_SESSION['login'];
+
+// refresh data per month
+    $time = time();
+    if(date('j', $time) == '1') {
+        //first day 
+        mysqli_query($conn, "UPDATE posts SET month_view = 0");
+    }
+
  ?>
 <?php 
                     $categories = mysqli_query($conn,"SELECT * FROM categories");
                     $posts = mysqli_query($conn,"SELECT * FROM posts");
                     $tags = mysqli_query($conn,"SELECT * FROM tags");
+                    $users = mysqli_query($conn,"SELECT * FROM users");
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,6 +45,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="index.php?m=tags">Tags</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?m=users">Users</a>
             </li>
         </ul>
         <ul class="navbar-nav navbar-expand ml-auto">

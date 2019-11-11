@@ -1,41 +1,37 @@
-
+<?php 
+	$from_date = !empty($_POST['from_date']) ? $_POST['from_date'] : 0;
+	$to_date = !empty($_POST['to_date']) ? $_POST['to_date'] : 0;
+	$posts = mysqli_query($conn,"SELECT * FROM posts WHERE (created_at BETWEEN '$from_date' AND '$to_date') OR (updated_at BETWEEN '$from_date' AND '$to_date')");
+ ?>
+ <div class="col-md-2">
+ 	<form action="index.php?m=posts&a=datesearch" method="POST">
+ 	                   <div class="form-group">
+ 	                       <label for="exampleFromDate1">From</label>
+ 	                       <input type="date" class="form-control" id="exampleFromDate1" name="from_date">
+ 	                   </div>
+ 	                   <div class="form-group">
+ 	                       <label for="exampleInputPost1">To</label>
+ 	                       <input type="date" class="form-control" id="exampleInputPost1" name="to_date">
+ 	                   </div>
+ 	                   <button type="submit" class="btn btn-success">Submit</button>
+ 	           </form>
+ </div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-9">
-            <form action="index.php?m=posts&a=search" method="POST">
-                Search: <input type="text" name="search" />
-                            <input type="submit" name="ok" value="Search" />
-            </form>
-        </div>
-        <div class="col-md-3 float-right">
-            <form action="index.php?m=posts&a=datesearch" method="POST">
-                    <div class="form-group">                      
-                    From:    <input type="date" class="form-control" name="from_date">
-                    </div>
-                    <div class="form-group">                       
-                    To:    <input type="date" class="form-control" name="to_date">
-                    </div>
-                    <button type="submit" class="btn btn-success">Submit</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="container">
-
-            <table class="table table-inverse">
-                <a href="index.php?m=posts&a=topview" class="btn btn-info">Top View Month</a>
-                <thead>
-                    <tr>
-                        <th>Post name</th>
-                        <th>Content</th>
-                        <th>Category</th>
-                        <th>Post by</th>
-                        <th>Tags</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($posts as $post) : ?>
-                        <?php 
+<p><small>Search from <b><?= $from_date ?></b> </small>
+	<small>to <b><?= $to_date ?></b></small>
+    <table class="table table-inverse">
+        <thead>
+            <tr>
+                <th>Post name</th>
+                <th>Content</th>
+                <th>Category</th>
+                <th>Post by</th>
+                <th>Tags</th>
+            </tr>
+        </thead>
+        <tbody>
+		<?php foreach($posts as $post) : ?>
+			<?php 
                             $category_id = $post['category_id'];
                             $query = mysqli_query($conn,"SELECT * FROM categories WHERE id = $category_id ");
                             $category = mysqli_fetch_assoc($query);
@@ -72,25 +68,11 @@
                             </td>
                         </tr>
                     <?php endif; ?>
-                    <?php endforeach; ?>
-                </tbody>
+		<?php endforeach; ?>
+        </tbody>
             </table>
+            <?php if (mysqli_num_rows($posts) <1 ) : ?>
+				<h5>No posts From <b><?= $from_date ?></b> to <b><?= $to_date ?></b></h5>
+            <?php endif; ?>
             <a href="index.php?m=posts&a=create" class="btn btn-primary">Create</a>
-            
 </div>
-
-
-<?php 
-
-    foreach ($users as $user) {
-        $total_view = 0;
-        $user_id = $user['id'];
-        $posts = mysqli_query($conn,"SELECT viewcount FROM posts WHERE user_id = $user_id");
-        foreach ($posts as $post) {
-            $viewcount = $post['viewcount'];
-            $total_view += $viewcount;
-        }
-        mysqli_query($conn,"UPDATE users SET total_view = $total_view WHERE id = $user_id");
-    }
-
- ?>

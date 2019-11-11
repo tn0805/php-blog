@@ -4,8 +4,7 @@
         $content = $_POST['content'];
         $category_id = $_POST['category_id'];
         $user_id = $_POST['user_id'];
-        $created_at = date("Y-m-d H:i:s");
-        $sql = "INSERT INTO posts(post_title,content,category_id,user_id,created_at,updated_at) VALUES ('$post_title','$content','$category_id',$user_id, '$created_at','$created_at')";
+        $sql = "INSERT INTO posts(post_title,content,category_id,user_id) VALUES ('$post_title','$content','$category_id',$user_id)";
         if (mysqli_query($conn,$sql)) {
             header('location: index.php?m=posts');
         }else {

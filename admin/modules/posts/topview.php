@@ -1,29 +1,18 @@
+<?php 
+	$posts = mysqli_query($conn,"SELECT * FROM posts ORDER BY month_view DESC")
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-9">
-            <form action="index.php?m=posts&a=search" method="POST">
-                Search: <input type="text" name="search" />
-                            <input type="submit" name="ok" value="Search" />
-            </form>
-        </div>
-        <div class="col-md-3 float-right">
-            <form action="index.php?m=posts&a=datesearch" method="POST">
-                    <div class="form-group">                      
-                    From:    <input type="date" class="form-control" name="from_date">
-                    </div>
-                    <div class="form-group">                       
-                    To:    <input type="date" class="form-control" name="to_date">
-                    </div>
-                    <button type="submit" class="btn btn-success">Submit</button>
-            </form>
-        </div>
-    </div>
-</div>
+
+ ?>
+
+
+
+
+<h2 class="text-center" style="color:darkcyan">Top Views Month</h2>
+
+
 <div class="container">
 
             <table class="table table-inverse">
-                <a href="index.php?m=posts&a=topview" class="btn btn-info">Top View Month</a>
                 <thead>
                     <tr>
                         <th>Post name</th>
@@ -31,6 +20,8 @@
                         <th>Category</th>
                         <th>Post by</th>
                         <th>Tags</th>
+                        <th>Month View</th>
+                        <th>Total view</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,11 +55,13 @@
                                 <a href="index.php?m=tags&a=view&id=<?php echo $tag['tag_id']; ?>"><?= $tag['tag_name'] ?></a> | 
                                 <?php endforeach; ?>
                             </td>
+                            <td><?= $post['month_view'] ?></td>
+                            <td><?= $post['viewcount'] ?></td>
                             <td>
-                                <?php if($login['id'] == $user_id || $login['level'] == 1) : ?>
+                            	<?php if($login['id'] == $user_id || $login['level'] == 1) : ?>
                                 <a href="index.php?m=posts&a=edit&id=<?php echo $post['id']; ?>" class="btn btn-primary">Edit</a>
                                 <a href="index.php?m=posts&a=delete&id=<?php echo $post['id']; ?>" class="btn btn-danger" onclick="return confirm('Delete?')" >Delete</a>
-                            <?php endif; ?>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endif; ?>
@@ -78,19 +71,3 @@
             <a href="index.php?m=posts&a=create" class="btn btn-primary">Create</a>
             
 </div>
-
-
-<?php 
-
-    foreach ($users as $user) {
-        $total_view = 0;
-        $user_id = $user['id'];
-        $posts = mysqli_query($conn,"SELECT viewcount FROM posts WHERE user_id = $user_id");
-        foreach ($posts as $post) {
-            $viewcount = $post['viewcount'];
-            $total_view += $viewcount;
-        }
-        mysqli_query($conn,"UPDATE users SET total_view = $total_view WHERE id = $user_id");
-    }
-
- ?>

@@ -1,29 +1,21 @@
 <?php 
-    $id = !empty($_GET['id']) ? $_GET['id'] : 0;
+$id = !empty($_GET['id']) ? $_GET['id'] : 0;
     if (isset($_POST['post_title'])&& isset($_POST['content']) && isset($_POST['category_id'])) {
-            $post_title = $_POST['post_title'];
-            $content = $_POST['content'];
-            $category_id = $_POST['category_id'];
-            $user_id = $_POST['user_id'];
-            $updated_at = date("Y-m-d H:i:s");
-        if ($login['id']== $user_id || $login['level'] == 1) {            
-            $sql = "UPDATE posts SET post_title = '$post_title', content = '$content', category_id = '$category_id',user_id = '$user_id', updated_at = '$updated_at' WHERE id = $id ";
-            if (!empty($_POST['tag_id'])) {
-                $tag_ids = $_POST['tag_id'];
-                foreach ($tag_ids as $tag_id) {
-                    $tags_query = mysqli_query($conn,"SELECT * FROM posts_tags WHERE tag_id = $tag_id AND post_id = $id ");
-                    if (mysqli_num_rows($tags_query)<1) {
-                        $tags = mysqli_query($conn,"INSERT INTO posts_tags(post_id,tag_id) VALUES ('$id','$tag_id')");
-                    }
-                }
+        $post_title = $_POST['post_title'];
+        $content = $_POST['content'];
+        $category_id = $_POST['category_id'];
+        $user_id = $_POST['user_id'];
+        $sql = "UPDATE posts SET post_title = '$post_title', content = '$content', category_id = '$category_id',user_id = '$user_id' WHERE id = $id ";
+        if (!empty($_POST['tag_id'])) {
+            $tag_ids = $_POST['tag_id'];
+            foreach ($tag_ids as $tag_id) {
+                    $tags = mysqli_query($conn,"INSERT INTO posts_tags(post_id,tag_id) VALUES ('$id','$tag_id')");
             }
-            if (mysqli_query($conn,$sql)) {
-                header('location: index.php?m=posts');
-            }else {
-                echo "Missed somethings";
-            }
-        }else{
-            echo "U don't have permission to edit this post.";
+        }
+        if (mysqli_query($conn,$sql)) {
+            header('location: index.php?m=posts');
+        }else {
+            echo "Missed somethings";
         }
     }
 ?>
@@ -68,7 +60,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="hidden" name="user_id" value="<?= $post['user_id'] ?>">
+                <input type="hidden" name="user_id" value="<?php echo $login['id']; ?>">
             </div>
             <button type="submit" class="btn btn-primary">Edit</button>
             <a href="index.php?m=posts" class="btn btn-danger" onclick="return confirm('Cancel?')">Cancel</a>

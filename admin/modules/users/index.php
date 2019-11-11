@@ -1,22 +1,41 @@
-<?php 
-	$id = $login['id'];
-	$query = mysqli_query($conn,"SELECT * FROM users WHERE id = $id");
-	$userInfo = mysqli_fetch_assoc($query);
- ?>
+
 <h2 class="text-center" style="color:darkcyan">User information</h2>
 
-<table class="table table-bordered table-inverse table-hover">
-	<thead>
-		<tr>
-			<th>Username</th>
-			<th>Email</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td><?= $userInfo['username'] ?></td>
-			<td><?= $userInfo['email'] ?></td>
-			<td><a href="index.php?m=users&a=edit" class="btn btn-primary">Edit</a></td>
-		</tr>
-	</tbody>
-</table>
+<div class="container">
+	<table class="table table-inverse table-hover">
+		<?php if($login['level'] == 1) : ?>
+		<a href="index.php?m=users&a=create" class="btn btn-success">Add User</a>
+	<?php endif; ?>
+		<a href="index.php?m=users&a=ranking" class="btn btn-info">Ranking</a>
+		<thead>
+			<tr>
+				<th>Username</th>
+				<th>Email</th>
+				<th>Password</th>
+				<th>Level</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($users as $user) : ?>
+				<?php if($login['id'] == $user['id'] || $login['level'] == 1) : ?>
+			<tr>
+				<td><?= $user['username'] ?></td>
+				<td><?= $user['email'] ?></td>
+				<td><?= $user['password'] ?></td>
+				<td><?php if ($user['level'] == 1) : ?>
+					<?= 'ADMIN' ?></td>
+					<?php else : ?>
+					<?= 'USER' ?></td>
+				<td>
+					<a href="index.php?m=users&a=edit&id=<?= $user['id']; ?>" class="btn btn-primary">Edit</a>
+					<?php if($login['level'] == 1) : ?>
+					<a href="index.php?m=users&a=delete&id=<?= $user['id']; ?>" class="btn btn-danger" onclick="return confirm('Delete?')">Delete</a>
+				<?php endif; ?>
+				</td>	
+					<?php endif; ?>			
+			</tr>
+		<?php endif; ?>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>

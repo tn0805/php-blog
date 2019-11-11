@@ -6,11 +6,7 @@
         if (!empty($_POST['post_id'])) {
             $post_ids = $_POST['post_id'];
             foreach ($post_ids as $post_id) {
-                $post_qr = mysqli_query($conn,"SELECT * FROM posts_tags WHERE tag_id = $id AND post_id = $post_id ");
-                if (mysqli_num_rows($post_qr) < 1) {
-                    $post = mysqli_query($conn,"INSERT INTO posts_tags(post_id,tag_id) VALUES ('$post_id','$id')");
-                }
-                
+                $post = mysqli_query($conn,"INSERT INTO posts_tags(post_id,tag_id) VALUES ('$post_id','$id')");
             }
         }
         if (mysqli_query($conn,$sql)) {
