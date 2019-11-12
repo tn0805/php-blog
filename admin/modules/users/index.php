@@ -6,7 +6,6 @@
 		<?php if($login['level'] == 1) : ?>
 		<a href="index.php?m=users&a=create" class="btn btn-success">Add User</a>
 	<?php endif; ?>
-		<a href="index.php?m=users&a=ranking" class="btn btn-info">Ranking</a>
 		<thead>
 			<tr>
 				<th>Username</th>

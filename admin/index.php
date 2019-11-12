@@ -6,12 +6,6 @@
     }
     $login = $_SESSION['login'];
 
-// refresh data per month
-    $time = time();
-    if(date('j', $time) == '1') {
-        //first day 
-        mysqli_query($conn, "UPDATE posts SET month_view = 0");
-    }
 
  ?>
 <?php 
@@ -45,6 +39,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="index.php?m=tags">Tags</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?m=main&a=stat">Stat</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="index.php?m=users">Users</a>

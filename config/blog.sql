@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2019 at 10:15 AM
+-- Generation Time: Nov 12, 2019 at 02:40 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -47,6 +47,39 @@ INSERT INTO `categories` (`id`, `category_name`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `count_views`
+--
+
+CREATE TABLE `count_views` (
+  `post_id` int(11) NOT NULL,
+  `month` int(11) NOT NULL,
+  `year` year(4) NOT NULL,
+  `view_per_month` int(11) NOT NULL,
+  `total_views` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `count_views`
+--
+
+INSERT INTO `count_views` (`post_id`, `month`, `year`, `view_per_month`, `total_views`) VALUES
+(15, 11, 2019, 1, 1),
+(19, 11, 2019, 3, 3),
+(22, 11, 2019, 2, 2),
+(23, 11, 2019, 1, 1),
+(20, 11, 2019, 1, 1),
+(24, 11, 2019, 4, 4),
+(14, 11, 2019, 2, 2),
+(11, 2, 2018, 1, 1),
+(12, 11, 2019, 1, 1),
+(13, 11, 2019, 1, 1),
+(16, 11, 2019, 2, 2),
+(21, 11, 2019, 1, 1),
+(25, 11, 2019, 1, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `posts`
 --
 
@@ -57,8 +90,6 @@ CREATE TABLE `posts` (
   `category_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
-  `viewcount` int(11) NOT NULL,
-  `month_view` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -67,14 +98,20 @@ CREATE TABLE `posts` (
 -- Dumping data for table `posts`
 --
 
-INSERT INTO `posts` (`id`, `post_title`, `content`, `category_id`, `user_id`, `tag_id`, `viewcount`, `month_view`, `created_at`, `updated_at`) VALUES
-(11, 'edited by admin', 'this is post number 1                  \r\n                \r\n                \r\n                \r\n             ', 1, 4, 0, 2, 2, '2019-11-10 20:49:28', '2019-11-11 02:46:49'),
-(12, 'post 2', 'this is post number 2                  \r\n                \r\n             ', 1, 4, 0, 1, 1, '2019-11-10 20:49:42', '2019-11-10 20:50:03'),
-(13, 'post 3', 'this is post number 3                  \r\n                \r\n                \r\n             ', 2, 4, 0, 0, 0, '2019-11-10 20:49:54', '2019-11-10 21:03:56'),
-(14, 'post 4', 'post number 4\r\n                \r\n             ', 1, 4, 0, 0, 0, '2019-11-10 21:04:23', '2019-11-10 21:04:28'),
-(15, 'post 5', 'post number 5\r\n                  \r\n                \r\n             ', 1, 4, 0, 0, 0, '2019-11-10 23:05:28', '2019-11-10 23:05:45'),
-(16, 'post 6', 'thiss is post number 6                  \r\n                \r\n             ', 1, 4, 0, 2, 2, '2019-11-11 00:47:57', '2019-11-11 02:41:07'),
-(19, 'news', 'news                  \r\n             ', 1, 4, 0, 0, 0, '2019-11-11 02:40:49', '2019-11-11 02:40:49');
+INSERT INTO `posts` (`id`, `post_title`, `content`, `category_id`, `user_id`, `tag_id`, `created_at`, `updated_at`) VALUES
+(11, 'post 1', 'this is post number 1                  \r\n                \r\n                \r\n                \r\n                \r\n             ', 1, 4, 0, '2019-11-10 20:49:28', '2019-11-11 04:05:55'),
+(12, 'post 2', 'this is post number 2                  \r\n                \r\n             ', 1, 4, 0, '2019-11-10 20:49:42', '2019-11-10 20:50:03'),
+(13, 'post 3', 'this is post number 3                  \r\n                \r\n                \r\n             ', 2, 4, 0, '2019-11-10 20:49:54', '2019-11-10 21:03:56'),
+(14, 'post 4', 'post number 4\r\n                \r\n             ', 1, 4, 0, '2019-11-10 21:04:23', '2019-11-10 21:04:28'),
+(15, 'post 5', 'post number 5\r\n                  \r\n                \r\n             ', 1, 4, 0, '2019-11-10 23:05:28', '2019-11-10 23:05:45'),
+(16, 'post 6', 'thiss is post number 6                  \r\n                \r\n             ', 1, 4, 0, '2019-11-11 00:47:57', '2019-11-11 02:41:07'),
+(19, 'post 7', 'news                  \r\n                \r\n             ', 1, 4, 0, '2019-11-11 02:40:49', '2019-11-11 04:06:07'),
+(20, 'post 8', 'post 8\r\n                  \r\n             ', 1, 4, 0, '2019-11-11 04:05:46', '2019-11-11 04:05:46'),
+(21, 'post 9', 'post 9\r\n                  \r\n             ', 2, 4, 0, '2019-11-11 04:06:18', '2019-11-11 04:06:18'),
+(22, 'post 10', 'post 10', 2, 4, 0, '2019-11-11 04:06:31', '2019-11-11 04:06:31'),
+(23, 'post 11', 'post 11                  \r\n                \r\n                \r\n             ', 1, 4, 0, '2019-11-11 04:06:41', '2019-11-11 10:18:41'),
+(24, 'post 12', 'post 12\r\n\r\n                \r\n                \r\n                \r\n                \r\n                \r\n                \r\n             ', 1, 4, 0, '2019-11-12 04:25:08', '2019-11-12 07:01:39'),
+(25, 'test post', 'a test post', 4, 7, 0, '2019-11-12 06:12:06', '2019-11-12 06:12:06');
 
 -- --------------------------------------------------------
 
@@ -98,7 +135,8 @@ INSERT INTO `posts_tags` (`post_id`, `tag_id`) VALUES
 (14, 19),
 (16, 21),
 (16, 19),
-(11, 21);
+(11, 21),
+(23, 19);
 
 -- --------------------------------------------------------
 
@@ -141,8 +179,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `level`, `total_view`) VALUES
 (3, 'md5pass', 'abc@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 0),
-(4, 'tn0805', 'tn0805@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 1, 5),
-(7, 'admin', 'admin@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 0),
+(4, 'tn0805', 'tn0805@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 1, 20),
+(7, 'admin', 'admin@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 1),
 (12, 'anhngoc', 'cobetihon@yahoo.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 0),
 (13, 'river', 'river@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 1, 0);
 
@@ -156,6 +194,12 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `level`, `total_view
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `category_name` (`category_name`);
+
+--
+-- Indexes for table `count_views`
+--
+ALTER TABLE `count_views`
+  ADD KEY `fk_count_post_id` (`post_id`);
 
 --
 -- Indexes for table `posts`
@@ -200,7 +244,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tags`
@@ -212,11 +256,17 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `count_views`
+--
+ALTER TABLE `count_views`
+  ADD CONSTRAINT `fk_count_post_id` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`);
 
 --
 -- Constraints for table `posts`
