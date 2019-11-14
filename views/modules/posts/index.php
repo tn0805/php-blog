@@ -40,15 +40,11 @@
                                 <a href="index.php?m=tags&a=view&id=<?php echo $tag['tag_id']; ?>"><?= $tag['tag_name'] ?></a> | 
                                 <?php endforeach; ?>
                             </td>
-                            <td>
-                                <a href="index.php?m=posts&a=edit&id=<?php echo $post['id']; ?>" class="btn btn-primary">Edit</a>
-                                <a href="index.php?m=posts&a=delete&id=<?php echo $post['id']; ?>" class="btn btn-danger" onclick="return confirm('Delete?')" >Delete</a>
-                            </td>
+                    
                         </tr>
                     <?php endif; ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <a href="index.php?m=posts&a=create" class="btn btn-primary">Create</a>
             
 </div>

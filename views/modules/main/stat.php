@@ -1,14 +1,13 @@
 <?php 
     $from = date("Y-m-01");
-    $to = date("Y-m-d");
+    $to = date("Y-m-d",strtotime("+1 day"));
     if (isset($_REQUEST['submit'])) {
         $from = !empty($_POST['from_date']) ? $_POST['from_date'] : $from;
         $to = !empty($_POST['to_date']) ? $_POST['to_date'] : $to;
-        $count_views = mysqli_query($conn,"SELECT * FROM count_views WHERE date_view BETWEEN '$from' AND '$to' ORDER BY date_view DESC,view_per_day DESC LIMIT 10");
+        $views_count = mysqli_query($conn,"SELECT post_id,DATE(view_time) as view_times, COUNT(post_id) AS total_view FROM views_count WHERE view_time BETWEEN '$from' AND '$to' GROUP BY post_id ORDER BY total_view DESC");
     }else{
-        $count_views = mysqli_query($conn,"SELECT * FROM count_views WHERE date_view BETWEEN '$from' AND '$to' ORDER BY date_view DESC,view_per_day DESC LIMIT 10");
+        $views_count = mysqli_query($conn,"SELECT post_id,DATE(view_time) as view_times, COUNT(post_id) AS total_view FROM views_count WHERE view_time BETWEEN '$from' AND '$to' GROUP BY post_id ORDER BY total_view DESC");
     }
-    
 
  ?>
 
@@ -33,54 +32,55 @@
                             <th>Category</th>
                             <th>Post by</th>
                             <th>Tags</th>
-                            <th>View per day</th>
-                            <th>Date view</th>
-                            <th>Total</th>
-                            <th>Alldays had viewed</th>
+                            <th>View day</th>
+                            <th>Total View</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($count_views as $count_view) : ?>
+                        <?php foreach ($views_count as $value) : ?>
                             <?php 
-                                $post_id = $count_view['post_id'];
+                                $post_id = $value['post_id'];
                                 $posts = mysqli_query($conn,"SELECT * FROM posts WHERE id = $post_id");
                                 $post = mysqli_fetch_assoc($posts);
+
                                 $category_id = $post['category_id'];
                                 $query = mysqli_query($conn,"SELECT * FROM categories WHERE id = $category_id ");
                                 $category = mysqli_fetch_assoc($query);
                                 
                                 $tags = mysqli_query($conn,"SELECT tags.tag_id,tags.tag_name as 'tag_name' FROM posts_tags pt JOIN tags ON pt.tag_id = tags.tag_id WHERE pt.post_id = $post_id");
+
                                 $user_id = $post['user_id'];
                                 $qr = mysqli_query($conn,"SELECT * FROM users WHERE id=$user_id");
                                 $user = mysqli_fetch_assoc($qr);
-                                $views = mysqli_query($conn,"SELECT SUM(view_per_day) as total_days_view FROM count_views WHERE post_id = $post_id AND date_view BETWEEN '$from' AND '$to' ");
-                                $total_days_view = mysqli_fetch_assoc($views);
-                                $view_dates = mysqli_query($conn,"SELECT post_id, GROUP_CONCAT(DISTINCT date_view) view_date FROM count_views WHERE post_id = $post_id");
-                                $view_date = mysqli_fetch_assoc($view_dates);
+                                
+                                // $total_query = mysqli_query($conn,"SELECT COUNT(post_id) as counted FROM views_count WHERE post_id = $post_id AND view_time BETWEEN '$from' AND '$to' ");
+                                // $total_view = 0;
+                                // foreach ($total_query as $total) {
+                                //     $total_view = $total['counted'];
+                                // }
+                                $total_view = $value['total_view'];
                              ?>
                         <?php if($category['status'] == 1) : ?>
                             <tr>
                                 <td>
-                                    <a href="index.php?m=posts&a=view&id=<?= $post['id']; ?>" class="text-light"><?= $post['post_title']; ?></a>
+                                    <a href="index.php?m=posts&a=view&id=<?= $post_id; ?>" class="text-light"><?= $post['post_title']; ?></a>
                                 </td>
                                 <td>
                                     <?= $post['content'] ?>
                                 </td>
                                 <td>
-                                    <?= $category['category_name'] ?>
+                                    <a href="index.php?m=categories&a=view&id=<?= $category['id'] ?>" class="text-light"><?= $category['category_name'] ?></a>
                                 </td>
                                 <td>
-                                    <?= $user['username']; ?>
+                                    <a href="index.php?m=users&a=view&id=<?= $user['id'] ?>" class="text-light"><?= $user['username']; ?></a>
                                 </td>
                                 <td>
                                     <?php foreach ($tags as $tag) : ?>
                                     <a href="index.php?m=tags&a=view&id=<?= $tag['tag_id']; ?>" class="text-light"><?= $tag['tag_name'] ?></a> | 
                                     <?php endforeach; ?>
                                 </td>
-                                <td><?= $count_view['view_per_day'] ?></td>
-                                <td><?= $count_view['date_view'] ?></td>
-                                <td><?= $total_days_view['total_days_view'] ?></td>
-                                <td><?= $view_date['view_date'] ?></td>
+                                <td><?= $value['view_times'] ?></td>
+                                <td><?= $total_view ?></td>
                             </tr>
                         <?php endif; ?>
                         <?php endforeach; ?>
@@ -91,7 +91,20 @@
     </div>
 
 
-
+<?php 
+    foreach ($users as $user) {
+        $total_view = 0;
+        $user_id = $user['id'];
+        $posts = mysqli_query($conn,"SELECT id FROM posts WHERE user_id = $user_id");
+        foreach ($posts as $post) {
+            $post_id = $post['id'];
+            $totals = mysqli_query($conn,"SELECT COUNT(post_id) as counted FROM views_count WHERE post_id = $post_id AND view_time BETWEEN '$from' AND '$to'");
+            $total = mysqli_fetch_assoc($totals);
+            $total_view += $total['counted'];
+        }
+        mysqli_query($conn,"UPDATE users SET total_view = $total_view WHERE id = $user_id");
+    }
+ ?>
 
 
 

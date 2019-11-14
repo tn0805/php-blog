@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2019 at 02:40 PM
+-- Generation Time: Nov 14, 2019 at 05:07 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -52,8 +52,8 @@ INSERT INTO `categories` (`id`, `category_name`, `status`) VALUES
 
 CREATE TABLE `count_views` (
   `post_id` int(11) NOT NULL,
-  `month` int(11) NOT NULL,
-  `year` year(4) NOT NULL,
+  `date_view` date NOT NULL,
+  `view_per_day` int(11) NOT NULL,
   `view_per_month` int(11) NOT NULL,
   `total_views` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -62,20 +62,19 @@ CREATE TABLE `count_views` (
 -- Dumping data for table `count_views`
 --
 
-INSERT INTO `count_views` (`post_id`, `month`, `year`, `view_per_month`, `total_views`) VALUES
-(15, 11, 2019, 1, 1),
-(19, 11, 2019, 3, 3),
-(22, 11, 2019, 2, 2),
-(23, 11, 2019, 1, 1),
-(20, 11, 2019, 1, 1),
-(24, 11, 2019, 4, 4),
-(14, 11, 2019, 2, 2),
-(11, 2, 2018, 1, 1),
-(12, 11, 2019, 1, 1),
-(13, 11, 2019, 1, 1),
-(16, 11, 2019, 2, 2),
-(21, 11, 2019, 1, 1),
-(25, 11, 2019, 1, 1);
+INSERT INTO `count_views` (`post_id`, `date_view`, `view_per_day`, `view_per_month`, `total_views`) VALUES
+(11, '2018-10-01', 1, 0, 5),
+(12, '2019-11-12', 1, 0, 3),
+(11, '2019-11-12', 1, 0, 5),
+(16, '2019-11-12', 2, 0, 4),
+(11, '2019-11-13', 3, 0, 5),
+(12, '2019-11-13', 2, 0, 3),
+(16, '2019-11-13', 2, 0, 4),
+(19, '2019-11-13', 2, 0, 2),
+(25, '2019-11-13', 2, 0, 2),
+(22, '2019-11-13', 1, 0, 1),
+(24, '2019-11-13', 1, 0, 1),
+(15, '2019-11-13', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -179,10 +178,61 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `level`, `total_view`) VALUES
 (3, 'md5pass', 'abc@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 0),
-(4, 'tn0805', 'tn0805@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 1, 20),
-(7, 'admin', 'admin@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 1),
+(4, 'tn0805', 'tn0805@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 1, 26),
+(7, 'admin', 'admin@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 6),
 (12, 'anhngoc', 'cobetihon@yahoo.com', 'e10adc3949ba59abbe56e057f20f883e', 0, 0),
 (13, 'river', 'river@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `views_count`
+--
+
+CREATE TABLE `views_count` (
+  `post_id` int(11) NOT NULL,
+  `view_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `ss_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `views_count`
+--
+
+INSERT INTO `views_count` (`post_id`, `view_time`, `ss_id`) VALUES
+(24, '2019-11-14 03:00:13', 'blog-moijfu'),
+(23, '2019-11-14 03:00:17', 'blog-moijfu'),
+(13, '2019-11-14 03:01:55', 'blog-45lrfb'),
+(14, '2019-11-14 03:02:02', 'blog-95hk57'),
+(19, '2019-11-14 03:02:51', 'blog-n7es4p'),
+(20, '2018-11-14 03:00:13', 'blog-cdb9tb'),
+(20, '2019-11-14 03:04:10', 'blog-moijfu'),
+(21, '2019-11-14 03:05:41', 'blog-moijfu'),
+(25, '2019-11-14 03:05:56', 'blog-moijfu'),
+(11, '2019-11-14 03:32:16', 'blog-moijfu'),
+(11, '2019-11-14 03:33:07', 'blog-moijfu'),
+(11, '2019-11-14 03:33:52', 'blog-moijfu'),
+(11, '2019-11-14 03:34:44', 'blog-moijfu'),
+(11, '2019-11-14 03:36:05', 'blog-moijfu'),
+(11, '2019-11-14 03:36:40', 'tp7jccqpo8p'),
+(11, '2019-11-14 03:37:37', 'tp7jccqpo8p'),
+(11, '2019-11-14 03:38:00', 'cu2l1qm2pns'),
+(11, '2019-11-14 03:38:41', 'kn5il51ama5'),
+(25, '2019-11-14 04:20:04', 'blog-moijfu'),
+(25, '2019-11-14 05:01:47', 'n3efiea52gr'),
+(24, '2019-11-14 05:02:04', 'blog-moijfu'),
+(21, '2019-11-14 05:03:40', 'blog-moijfu'),
+(12, '2019-11-14 05:06:58', 'blog-moijfu'),
+(11, '2019-11-14 05:10:37', 'uh6oe85ul1k'),
+(11, '2019-11-14 06:05:30', 'rtlgmoedl35'),
+(25, '2019-11-14 06:45:58', 'blog-moijfu'),
+(11, '2019-11-14 06:51:02', 'rtlgmoedl35'),
+(11, '2019-11-14 06:53:29', '5abje39bqp4'),
+(11, '2019-11-14 06:56:54', 'jm2uujqohba'),
+(25, '2019-11-14 07:11:55', 'jm2uujqohba'),
+(11, '2019-11-14 07:42:41', 'di9tk42nl9qe20qaam1qrqu09k'),
+(11, '2019-11-14 07:43:20', 'he3v8csaf1a9ig9isavap5tsm1'),
+(25, '2019-11-14 07:45:44', 'di9tk42nl9qe20qaam1qrqu09k');
 
 --
 -- Indexes for dumped tables
@@ -229,6 +279,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `views_count`
+--
+ALTER TABLE `views_count`
+  ADD KEY `fk_views_post` (`post_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -281,6 +337,12 @@ ALTER TABLE `posts`
 ALTER TABLE `posts_tags`
   ADD CONSTRAINT `fk_post_id` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`),
   ADD CONSTRAINT `fk_tag_id` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`tag_id`);
+
+--
+-- Constraints for table `views_count`
+--
+ALTER TABLE `views_count`
+  ADD CONSTRAINT `fk_views_post` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
